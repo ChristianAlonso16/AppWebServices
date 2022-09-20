@@ -1,6 +1,8 @@
 package server;
 
 
+import java.util.ArrayList;
+
 public class Operations {
     private int num1,num2;
 
@@ -51,5 +53,15 @@ public class Operations {
         DaoOperations daoOperations = new DaoOperations();
         boolean result = daoOperations.save(num,nume, raiz, "Raiz");
         return "La raiz de " +num + " es: " +(raiz);
+    }
+    public String list (int count){
+        DaoOperations daoOperations= new DaoOperations();
+        ArrayList<BeanOperaciones> list = daoOperations.listOperations();
+        if (count == list.size()){
+            return "";
+        }else {
+            String cadena= list.get(count).getOperacion()+" "+list.get(count).getNum1()+" "+list.get(count).getNum2()+" "+list.get(count).getResult()+" "+list.get(count).getFecha();
+            return cadena;
+        }
     }
 }

@@ -28,7 +28,8 @@ public class RPCClient {
             System.out.println("4. Division");
             System.out.println("5. Exponente");
             System.out.println("6. Raiz");
-            System.out.println("7. Salir");
+            System.out.println("7. Historial");
+            System.out.println("8. Salir");
         opcion = sc.next();
         if (isNumber(opcion)){
             switch (Integer.parseInt(opcion)){
@@ -157,6 +158,23 @@ public class RPCClient {
                     System.out.println(response6);
                     break;
                 case 7:
+                    Object param [];
+                    param = new Object[1];
+                    int count=0;
+                    String cadena="";
+                    do {
+                        param [0]= count;
+                        try {
+                            cadena = (String) client.execute("Operations.list",param);
+                            System.out.println(cadena);
+                            count++;
+                        }catch (Exception e){
+                            System.out.println("Oooops ocurrió un error");
+                        }
+                    }while (!(cadena.equals("")));
+
+                    break;
+                case 8:
                     System.out.println("Gracias por usar el sistema");
                 default:
                     System.out.println("Ingresa una opcion valida");

@@ -2,9 +2,8 @@ package server;
 
 import utils.MySqlConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class DaoOperations {
 
@@ -24,5 +23,31 @@ public class DaoOperations {
                 }
 
                 return result;
+        }
+        public ArrayList<BeanOperaciones> listOperations (){
+                ArrayList<BeanOperaciones> list = new ArrayList<>();
+                try {
+                        Connection connection = MySqlConnection.getConnection();
+                        Statement statement = connection.createStatement();
+                        ResultSet rs = statement.executeQuery("select * from operaciones");
+                        while (rs.next()){
+                                BeanOperaciones operation = new BeanOperaciones();
+                                operation.setOperacion(rs.getString("tipo"));
+                                operation.setNum1(rs.getInt("primer_numero"));
+                                operation.setNum2(rs.getInt("segundo_numero"));
+                                operation.setResult(rs.getDouble("resultado"));
+                                operation.setFecha(rs.getDate("created_at"));
+
+                                list.add(operation);
+                        };
+
+                        rs.close();
+                        connection.close();
+                        statement.close();
+
+                } catch(Exception e) {
+                        e.printStackTrace();
+                }
+                return list;
         }
 }
